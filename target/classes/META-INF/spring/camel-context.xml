@@ -26,37 +26,34 @@
                     <camel:when>
                         <camel:simple>${property.CamelSplitIndex} > 0</camel:simple>
                         <camel:unmarshal ref="bindyDataformat" />
-                        <split streaming="true">
-                            <tokenize token="viewdata" xml="false" />
-                            <camel:log
-                                message="KLaus: ${body.getSequenceId} um ${date:now:hh:MM:ss:SSS}" />
-                            <!-- <to uri="bean:viewdata" /> -->
-                            <!-- <to uri="bean:viewdata" /> -->
-                            <!-- <to uri="viewdata" /> -->
-                            <!-- <setHeader headerName="CamelHBaseFamily"> -->
-                            <!-- <constant>viewdata</constant> -->
-                            <!-- </setHeader> -->
-                            <!-- <setHeader headerName="CamelHBaseQualifier"> -->
-                            <!-- <constant>sequenceid</constant> -->
-                            <!-- </setHeader> -->
-                            <!-- <setHeader headerName="CamelHBaseValue"> -->
-                            <!-- <constant>2</constant> -->
-                            <!-- <el>${in.body.sequenceid}</el> -->
-                            <!-- </setHeader> -->
-                            <!-- <setHeader headerName="CamelHBaseQualifier2"> -->
-                            <!-- <constant>plcnetworkid</constant> -->
-                            <!-- </setHeader> -->
-                            <!-- <setHeader headerName="CamelHBaseFamily2"> -->
-                            <!-- <constant>viewdata</constant> -->
-                            <!-- </setHeader> -->
-                            <!-- <setHeader headerName="CamelHBaseValue2"> -->
-                            <!-- <constant>1</constant> -->
-                            <!-- <el>${in.body.plcNetworkId}</el> -->
-                            <!-- </setHeader> -->
-                            <!-- <to uri="hbase:test?operation=CamelHBasePut"
-                                /> -->
-                            <to uri="mock:result" />
-                        </split>
+                        <!-- <to uri="bean:viewdata" /> -->
+                        <!-- <camel:log -->
+                        <!-- message="SequenceId: ${body} um ${date:now:hh:MM:ss:SSS}"
+                            /> -->
+
+                        <!-- <to uri="viewdata" /> -->
+                        <setHeader headerName="CamelHBaseFamily">
+                        <constant>viewdata</constant>
+                        </setHeader>
+                        <setHeader headerName="CamelHBaseQualifier">
+                        <constant>sequenceid</constant>
+                        </setHeader>
+                        <setHeader headerName="CamelHBaseValue">
+                        <constant>2</constant>
+<!--                         <el>${in.body.sequenceid}</el> -->
+                        </setHeader>
+                        <setHeader headerName="CamelHBaseQualifier2">
+                        <constant>plcnetworkid</constant>
+                        </setHeader>
+                        <setHeader headerName="CamelHBaseFamily2">
+                        <constant>viewdata</constant>
+                        </setHeader>
+                        <setHeader headerName="CamelHBaseValue2">
+                        <constant>1</constant>
+<!--                         <el>${in.body.plcNetworkId}</el> -->
+                        </setHeader>
+                        <to uri="hbase:test?operation=CamelHBasePut" />
+                        <to uri="mock:result" />
                     </camel:when>
                 </camel:choice>
             </camel:split>
