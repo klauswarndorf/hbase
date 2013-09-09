@@ -7,6 +7,11 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+    <bean id="bindyDataformat"
+        class="org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat">
+        <constructor-arg value="com.yoc.mte.hbase" />
+    </bean>
+
     <bean id="viewdata" class="com.yoc.mte.hbase.viewAdTechImpl" />
 
     <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
@@ -21,27 +26,37 @@
                     <camel:when>
                         <camel:simple>${property.CamelSplitIndex} > 0</camel:simple>
                         <camel:unmarshal ref="bindyDataformat" />
-                        <to uri="bean:viewdata" />
-                        <setHeader headerName="CamelHBaseFamily">
-                            <constant>viewdata</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseQualifier">
-                            <constant>sequenceid</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseValue">
-                            <el>${in.body.sequenceid}</el>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseQualifier2">
-                            <constant>plcnetworkid</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseFamily2">
-                            <constant>viewdata</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseValue2">
-                            <el>${in.body.plcNetworkId}</el>
-                        </setHeader>
-                        <to uri="hbase:test?operation=CamelHBasePut" />
-                        <to uri="log:${body}" />
+                        <split streaming="true">
+                            <tokenize token="viewdata" xml="false" />
+                            <camel:log
+                                message="KLaus: ${body.getSequenceId} um ${date:now:hh:MM:ss:SSS}" />
+                            <!-- <to uri="bean:viewdata" /> -->
+                            <!-- <to uri="bean:viewdata" /> -->
+                            <!-- <to uri="viewdata" /> -->
+                            <!-- <setHeader headerName="CamelHBaseFamily"> -->
+                            <!-- <constant>viewdata</constant> -->
+                            <!-- </setHeader> -->
+                            <!-- <setHeader headerName="CamelHBaseQualifier"> -->
+                            <!-- <constant>sequenceid</constant> -->
+                            <!-- </setHeader> -->
+                            <!-- <setHeader headerName="CamelHBaseValue"> -->
+                            <!-- <constant>2</constant> -->
+                            <!-- <el>${in.body.sequenceid}</el> -->
+                            <!-- </setHeader> -->
+                            <!-- <setHeader headerName="CamelHBaseQualifier2"> -->
+                            <!-- <constant>plcnetworkid</constant> -->
+                            <!-- </setHeader> -->
+                            <!-- <setHeader headerName="CamelHBaseFamily2"> -->
+                            <!-- <constant>viewdata</constant> -->
+                            <!-- </setHeader> -->
+                            <!-- <setHeader headerName="CamelHBaseValue2"> -->
+                            <!-- <constant>1</constant> -->
+                            <!-- <el>${in.body.plcNetworkId}</el> -->
+                            <!-- </setHeader> -->
+                            <!-- <to uri="hbase:test?operation=CamelHBasePut"
+                                /> -->
+                            <to uri="mock:result" />
+                        </split>
                     </camel:when>
                 </camel:choice>
             </camel:split>
