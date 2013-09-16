@@ -12,8 +12,8 @@
     </property>
     <property>
         <name>hbase.master.ipc.address</name>
-        <value>192.168.56.101</value>
-    </property>
+        <value>192.168.64.240</value>
+    </property>q
     <property>
         <name>hbase.cluster.distributed</name>
         <value>true</value>
@@ -96,7 +96,7 @@
     </property>
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>hbase.kw</value>
+        <value>localhost</value>
     </property>
     <property>
         <name>hbase.zookeeper.property.clientPort</name>

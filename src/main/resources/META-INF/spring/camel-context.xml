@@ -12,9 +12,13 @@
         <constructor-arg value="com.yoc.mte.hbase" />
     </bean>
 
-    <bean id="viewdata" class="com.yoc.mte.hbase.viewAdTechImpl" />
+    <bean id="viewdata" class="com.yoc.mte.hbase.viewAdTechImpl">
+    </bean>
 
-    <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
+    <bean id="kvstring" class="com.yoc.mte.hbase.KVString">
+    </bean>
+
+    <camel:camelContext trace="true" xmlns="http://camel.apache.org/schema/spring">
         <camel:route id="importFromWebdav">
 
             <camel:from uri="timer:test?repeatCount=1" />
@@ -26,38 +30,29 @@
                     <camel:when>
                         <camel:simple>${property.CamelSplitIndex} > 0</camel:simple>
                         <camel:unmarshal ref="bindyDataformat" />
-                        <!-- <to uri="bean:viewdata" /> -->
-                        <!-- <camel:log -->
-                        <!-- message="SequenceId: ${body} um ${date:now:hh:MM:ss:SSS}"
-                            /> -->
-
-                        <!-- <to uri="viewdata" /> -->
-                        <setHeader headerName="CamelHBaseFamily">
-                        <constant>viewdata</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseQualifier">
-                        <constant>sequenceid</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseValue">
-                        <constant>2</constant>
-<!--                         <el>${in.body.sequenceid}</el> -->
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseQualifier2">
-                        <constant>plcnetworkid</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseFamily2">
-                        <constant>viewdata</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseValue2">
-                        <constant>1</constant>
-<!--                         <el>${in.body.plcNetworkId}</el> -->
-                        </setHeader>
-                        <to uri="hbase:test?operation=CamelHBasePut" />
-                        <to uri="mock:result" />
+                        <camel:log message="Log: ${body.toString}" />
+                        <camel:to uri="mock:result" />
                     </camel:when>
                 </camel:choice>
             </camel:split>
         </camel:route>
     </camel:camelContext>
+
+
+                        <!-- <camel:setHeader headerName="CamelHBaseRowId"> -->
+                        <!-- <constant>1</constant> -->
+                        <!-- </camel:setHeader> -->
+                        <!-- <camel:setHeader headerName="CamelHBaseFamily"> -->
+                        <!-- <constant>kwtable</constant> -->
+                        <!-- </camel:setHeader> -->
+                        <!-- <camel:setHeader headerName="CamelHBaseQualifier"> -->
+                        <!-- <constant>sequenceid</constant> -->
+                        <!-- </camel:setHeader> -->
+                        <!-- <camel:setHeader headerName="CamelHBaseValue"> -->
+                        <!-- <constant>2</constant> -->
+                        <!-- </camel:setHeader> -->
+                        <!-- <camel:to -->
+                        <!-- uri="hbase:default?operation=CamelHBasePut"
+                            /> -->
 
 </beans>

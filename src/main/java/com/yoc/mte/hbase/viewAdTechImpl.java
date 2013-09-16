@@ -3,8 +3,11 @@
  */
 package com.yoc.mte.hbase;
 
+import java.io.Serializable;
+
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
+import org.apache.camel.dataformat.bindy.annotation.Link;
 
 
 /**
@@ -12,13 +15,15 @@ import org.apache.camel.dataformat.bindy.annotation.DataField;
  *
  */
 @CsvRecord( separator = "," )
-public class viewAdTechImpl {
+public class viewAdTechImpl implements Serializable {
+
+    private static final long serialVersionUID = -9057141563434616631L;
 
     @DataField(pos = 1, position = 1)
-    public String sequenceId;
+    private String sequenceId;
 
     @DataField(pos = 2, position = 2)
-    public String plcNetworkId;
+    private String plcNetworkId;
 
     @DataField(pos = 3, position = 3)
     private String plcSubNetworkId;
@@ -35,8 +40,8 @@ public class viewAdTechImpl {
     @DataField(pos = 7, position = 7)
     private String extensionType;
 
-    @DataField(pos = 8, position = 8)
-    private String kvString;
+    @Link
+    private KVString kvString;
 
     public String getSequenceId() {
         return sequenceId;
@@ -94,15 +99,19 @@ public class viewAdTechImpl {
         this.extensionType = extensionType;
     }
 
-    public String getKvString() {
+    public KVString getKvString() {
         return kvString;
     }
 
-    public void setKvString(String kvString) {
+    public void setKvString(KVString kvString) {
         this.kvString = kvString;
     }
 
-    public String _toString() {
-        return "SequenceId: " +sequenceId;
+    public void splitKVString() {
+        this.getKvString().split();
+    }
+
+    public String toString() {
+        return "SequenceId: "+ sequenceId + "| kvriid: " + this.getKvString().getKvyrid();
     }
 }
