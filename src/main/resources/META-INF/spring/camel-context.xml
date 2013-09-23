@@ -38,7 +38,7 @@
                         <setHeader headerName="CamelHBaseValue">
                             <constant>1</constant>
                         </setHeader>
-                        <to uri="hbase:default?operation=CamelHBasePut" />
+                        <to uri="hbase:mytable?operation=CamelHBasePut" />
                         <!-- <log message="Log: ${body.toString}" /> -->
                         <!-- <to uri="mock:result" /> -->
                     </when>
