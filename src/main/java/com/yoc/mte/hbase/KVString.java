@@ -117,9 +117,4 @@ public class KVString {
             }
         }
     }
-
-    @Override
-    public String toString() {
-        return this.getKvyrid();
-    }
 }

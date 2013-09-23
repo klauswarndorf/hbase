@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Configures the Camel Context -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
@@ -15,44 +14,39 @@
     <bean id="viewdata" class="com.yoc.mte.hbase.viewAdTechImpl">
     </bean>
 
-    <bean id="kvstring" class="com.yoc.mte.hbase.KVString">
-    </bean>
-
-    <camel:camelContext trace="true" xmlns="http://camel.apache.org/schema/spring">
-        <camel:route id="importFromWebdav">
-
-            <camel:from uri="timer:test?repeatCount=1" />
-            <camel:to
+    <camelContext trace="true"
+        xmlns="http://camel.apache.org/schema/spring">
+        <route id="importFromWebdav">
+            <from uri="timer:test?repeatCount=1" />
+            <to
                 uri="http4://sgsdata.adtech.de/yoc/yoc_ekv_20130718.csv?authUsername=yoc&amp;authPassword=Ticani-X75" />
-            <camel:split streaming="true">
-                <camel:tokenize token="\n" />
-                <camel:choice>
-                    <camel:when>
-                        <camel:simple>${property.CamelSplitIndex} > 0</camel:simple>
-                        <camel:unmarshal ref="bindyDataformat" />
-                        <camel:log message="Log: ${body.toString}" />
-                        <camel:to uri="mock:result" />
-                    </camel:when>
-                </camel:choice>
-            </camel:split>
-        </camel:route>
-    </camel:camelContext>
-
-
-                        <!-- <camel:setHeader headerName="CamelHBaseRowId"> -->
+            <split streaming="true">
+                <tokenize token="\n" />
+                <choice>
+                    <when>
+                        <simple>${property.CamelSplitIndex} == 3</simple>
+                        <unmarshal ref="bindyDataformat" />
+                        <!-- <setHeader headerName="CamelHBaseRowId"> -->
                         <!-- <constant>1</constant> -->
-                        <!-- </camel:setHeader> -->
-                        <!-- <camel:setHeader headerName="CamelHBaseFamily"> -->
-                        <!-- <constant>kwtable</constant> -->
-                        <!-- </camel:setHeader> -->
-                        <!-- <camel:setHeader headerName="CamelHBaseQualifier"> -->
-                        <!-- <constant>sequenceid</constant> -->
-                        <!-- </camel:setHeader> -->
-                        <!-- <camel:setHeader headerName="CamelHBaseValue"> -->
-                        <!-- <constant>2</constant> -->
-                        <!-- </camel:setHeader> -->
-                        <!-- <camel:to -->
-                        <!-- uri="hbase:default?operation=CamelHBasePut"
-                            /> -->
+                        <!-- </setHeader> -->
+                        <setHeader headerName="CamelHBaseFamily">
+                            <constant>statistics</constant>
+                        </setHeader>
+                        <setHeader headerName="CamelHBaseQualifier">
+                            <constant>sequenceid</constant>
+                        </setHeader>
+                        <setHeader headerName="CamelHBaseValue">
+                            <constant>1</constant>
+                        </setHeader>
+                        <to uri="hbase:default?operation=CamelHBasePut" />
+                        <!-- <log message="Log: ${body.toString}" /> -->
+                        <!-- <to uri="mock:result" /> -->
+                    </when>
+                </choice>
+            </split>
+        </route>
+    </camelContext>
+
+
 
 </beans>
