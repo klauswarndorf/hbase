@@ -27,7 +27,7 @@
                         <simple>${property.CamelSplitIndex} == 3</simple>
                         <unmarshal ref="bindyDataformat" />
                         <setHeader headerName="CamelHBaseRowId">
-                            <constant>1</constant>
+                            <constant>2</constant>
                         </setHeader>
                         <setHeader headerName="CamelHBaseFamily">
                             <constant>cf</constant>
@@ -36,7 +36,7 @@
                             <constant>sequenceid</constant>
                         </setHeader>
                         <setHeader headerName="CamelHBaseValue">
-                            <constant>1</constant>
+                            <constant>3</constant>
                         </setHeader>
                         <to uri="hbase:mytable?operation=CamelHBasePut" />
                         <!-- <log message="Log: ${body.toString}" /> -->
