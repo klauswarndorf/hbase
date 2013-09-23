@@ -18,7 +18,7 @@
     </property>
     <property>
         <name>hbase.master.ipc.address</name>
-        <value>10.10.10.130</value>
+        <value>localhost</value>
         <source>hbase-site.xml</source>
     </property>
     <property>
@@ -134,7 +134,7 @@
     </property>
     <property>
         <name>mapred.task.tracker.http.address</name>
-        <value>10.10.10.130:50060</value>
+        <value>localhost:50060</value>
         <source>mapred-default.xml</source>
     </property>
     <property>
@@ -169,7 +169,7 @@
     </property>
     <property>
         <name>dfs.namenode.http-address</name>
-        <value>10.10.10.130:50070</value>
+        <value>localhost:50070</value>
         <source>hdfs-site.xml</source>
     </property>
     <property>
@@ -209,7 +209,7 @@
     </property>
     <property>
         <name>dfs.journalnode.rpc-address</name>
-        <value>10.10.10.130:8485</value>
+        <value>localhost:8485</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
@@ -326,7 +326,7 @@
     </property>
     <property>
         <name>dfs.namenode.servicerpc-address</name>
-        <value>10.10.10.130:8022</value>
+        <value>localhost:8022</value>
         <source>hdfs-site.xml</source>
     </property>
     <property>
@@ -341,7 +341,7 @@
     </property>
     <property>
         <name>dfs.datanode.http.address</name>
-        <value>10.10.10.130:50075</value>
+        <value>localhost:50075</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
@@ -473,7 +473,7 @@
     </property>
     <property>
         <name>mapred.job.tracker.http.address</name>
-        <value>10.10.10.130:50030</value>
+        <value>localhost:50030</value>
         <source>mapred-default.xml</source>
     </property>
     <property>
@@ -533,7 +533,7 @@
     </property>
     <property>
         <name>hbase.rootdir</name>
-        <value>hdfs://10.10.10.130:8020/hbase</value>
+        <value>hdfs://localhost:8020/hbase</value>
         <source>hbase-site.xml</source>
     </property>
     <property>
@@ -604,7 +604,7 @@
     </property>
     <property>
         <name>mapred.task.id</name>
-        <value>hb_m_10.10.10.130,60000,1379581255139</value>
+        <value>hb_m_localhost,60000,1379581255139</value>
         <source>programatically</source>
     </property>
     <property>
@@ -624,7 +624,7 @@
     </property>
     <property>
         <name>hbase.master.info.bindAddress</name>
-        <value>10.10.10.130</value>
+        <value>localhost</value>
         <source>hbase-default.xml</source>
     </property>
     <property>
@@ -649,7 +649,7 @@
     </property>
     <property>
         <name>mapreduce.shuffle.ssl.address</name>
-        <value>10.10.10.130</value>
+        <value>localhost</value>
         <source>mapred-default.xml</source>
     </property>
     <property>
@@ -1016,7 +1016,7 @@
     </property>
     <property>
         <name>dfs.journalnode.http-address</name>
-        <value>10.10.10.130:8480</value>
+        <value>localhost:8480</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
@@ -1087,7 +1087,7 @@
     </property>
     <property>
         <name>dfs.namenode.https-address</name>
-        <value>10.10.10.130:50470</value>
+        <value>localhost:50470</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
@@ -1267,7 +1267,7 @@
     </property>
     <property>
         <name>dfs.namenode.backup.address</name>
-        <value>10.10.10.130:50100</value>
+        <value>localhost:50100</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
@@ -1297,7 +1297,7 @@
     </property>
     <property>
         <name>dfs.namenode.backup.http-address</name>
-        <value>10.10.10.130:50105</value>
+        <value>localhost:50105</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
@@ -1672,7 +1672,7 @@
     </property>
     <property>
         <name>dfs.namenode.secondary.http-address</name>
-        <value>10.10.10.130:50090</value>
+        <value>localhost:50090</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
@@ -1768,7 +1768,7 @@
     </property>
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://10.10.10.130:8020</value>
+        <value>hdfs://localhost:8020</value>
         <source>programatically</source>
     </property>
     <property>
@@ -1981,7 +1981,7 @@
     </property>
     <property>
         <name>fs.ftp.host</name>
-        <value>10.10.10.130</value>
+        <value>localhost</value>
         <source>core-default.xml</source>
     </property>
     <property>
@@ -2012,12 +2012,12 @@
     </property>
     <property>
         <name>dfs.datanode.address</name>
-        <value>10.10.10.130:50010</value>
+        <value>localhost:50010</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
         <name>dfs.datanode.https.address</name>
-        <value>10.10.10.130:50475</value>
+        <value>localhost:50475</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
@@ -2098,7 +2098,7 @@
     </property>
     <property>
         <name>fs.default.name</name>
-        <value>hdfs://10.10.10.130:8020</value>
+        <value>hdfs://localhost:8020</value>
         <source>because fs.defaultFS is deprecated</source>
     </property>
     <property>
@@ -2221,7 +2221,7 @@
     </property>
     <property>
         <name>hbase.regionserver.info.bindAddress</name>
-        <value>10.10.10.130</value>
+        <value>localhost</value>
         <source>hbase-default.xml</source>
     </property>
     <property>
@@ -2339,7 +2339,7 @@
     </property>
     <property>
         <name>dfs.datanode.ipc.address</name>
-        <value>10.10.10.130:50020</value>
+        <value>localhost:50020</value>
         <source>hdfs-default.xml</source>
     </property>
     <property>
