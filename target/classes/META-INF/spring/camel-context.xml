@@ -30,7 +30,7 @@
                         <!-- <constant>1</constant> -->
                         <!-- </setHeader> -->
                         <setHeader headerName="CamelHBaseFamily">
-                            <constant>statistics</constant>
+                            <constant>default</constant>
                         </setHeader>
                         <setHeader headerName="CamelHBaseQualifier">
                             <constant>sequenceid</constant>
