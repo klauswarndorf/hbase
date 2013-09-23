@@ -26,14 +26,14 @@
                     <when>
                         <simple>${property.CamelSplitIndex} == 3</simple>
                         <unmarshal ref="bindyDataformat" />
-                        <!-- <setHeader headerName="CamelHBaseRowId"> -->
-                        <!-- <constant>1</constant> -->
-                        <!-- </setHeader> -->
+                        <setHeader headerName="CamelHBaseRowId">
+                            <constant>1</constant>
+                        </setHeader>
                         <setHeader headerName="CamelHBaseFamily">
-                            <constant>sequenceid</constant>
+                            <constant>cf</constant>
                         </setHeader>
                         <setHeader headerName="CamelHBaseQualifier">
-                            <constant>default</constant>
+                            <constant>sequenceid</constant>
                         </setHeader>
                         <setHeader headerName="CamelHBaseValue">
                             <constant>1</constant>
