@@ -9,8 +9,8 @@
     <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>A Camel Spring Route</name>
-    <url>http://www.myorganization.org</url>
+    <name>Importiert Statistikdaten in nosql DB</name>
+    <url>http://www.yoc.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -11,12 +11,12 @@
         <constructor-arg value="com.yoc.mte.hbase" />
     </bean>
 
-    <bean id="viewdata" class="com.yoc.mte.hbase.viewAdTechImpl">
-    </bean>
+    <bean id="viewdata" class="com.yoc.mte.hbase.ViewAdTechImpl" />
 
     <camelContext trace="true"
         xmlns="http://camel.apache.org/schema/spring">
-        <route id="importFromWebdav">
+
+        <route id="getWebdavSource">
             <from uri="timer:test?repeatCount=1" />
             <to
                 uri="http4://sgsdata.adtech.de/yoc/yoc_ekv_20130718.csv?authUsername=yoc&amp;authPassword=Ticani-X75" />
@@ -24,27 +24,59 @@
                 <tokenize token="\n" />
                 <choice>
                     <when>
-                        <simple>${property.CamelSplitIndex} == 3</simple>
-                        <unmarshal ref="bindyDataformat" />
-                        <setHeader headerName="CamelHBaseRowId">
-                            <constant>2</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseFamily">
-                            <constant>cf</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseQualifier">
-                            <constant>sequenceid</constant>
-                        </setHeader>
-                        <setHeader headerName="CamelHBaseValue">
-                            <constant>3</constant>
-                        </setHeader>
-                        <to uri="hbase:mytable?operation=CamelHBasePut" />
-                        <!-- <log message="Log: ${body.toString}" /> -->
-                        <!-- <to uri="mock:result" /> -->
+                        <simple>${property.CamelSplitIndex} > 0</simple>
+                        <to uri="direct:unmarshal" />
                     </when>
                 </choice>
             </split>
         </route>
+
+        <route id="unmarshalCSV">
+            <from uri="direct:unmarshal" />
+            <unmarshal ref="bindyDataformat" />
+            <to uri="direct:hbase" />
+        </route>
+
+        <route id="writeHbase">
+            <from uri="direct:hbase" />
+
+            <!-- <to uri="bean:viewdata" /> -->
+            <log message="Log: ${body}" />
+
+            <setHeader headerName="CamelHBaseRowId">
+                <el>${in.body.id}</el>
+<!--                 <constant>3</constant> -->
+            </setHeader>
+            <setHeader headerName="CamelHBaseFamily">
+                <constant>cf</constant>
+            </setHeader>
+            <setHeader headerName="CamelHBaseQualifier">
+                <constant>sequenceid</constant>
+            </setHeader>
+            <setHeader headerName="CamelHBaseValue">
+<!--                 <el>${body}</el> -->
+                <constant>test</constant>
+            </setHeader>
+
+
+            <setHeader headerName="CamelHBaseRowId2">
+                <el>${in.body.id}</el>
+<!--                 <constant>3</constant> -->
+            </setHeader>
+            <setHeader headerName="CamelHBaseFamily2">
+                <constant>cf</constant>
+            </setHeader>
+            <setHeader headerName="CamelHBaseQualifier2">
+                <constant>plcNetworkId</constant>
+            </setHeader>
+            <setHeader headerName="CamelHBaseValue2">
+<!--                 <el>${in.body.plcNetworkId}</el> -->
+                <constant>test2</constant>
+            </setHeader>
+
+            <to uri="hbase:mytable?operation=CamelHBasePut" />
+        </route>
+
     </camelContext>
 
 
