@@ -8,74 +8,58 @@
 
     <bean id="bindyDataformat"
         class="org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat">
-        <constructor-arg value="com.yoc.mte.hbase" />
+        <constructor-arg value="com.yoc.mte.hbase.viewMapping" />
     </bean>
 
-    <bean id="viewdata" class="com.yoc.mte.hbase.ViewAdTechImpl" />
+    <bean id="setViewWriteHeaderData" class="com.yoc.mte.hbase.processors.ViewHeaderDataWriteImpl" />
 
-    <camelContext trace="true"
+<!--     <bean id="setScanHeaderData" class="com.yoc.mte.hbase.processors.ScanHeaderDataImpl" /> -->
+
+<!--     <bean id="myFilterList" class="java.util.ArrayList"> -->
+<!--         <constructor-arg> -->
+<!--             <list> -->
+<!--                 <bean -->
+<!--                     class="org.apache.camel.component.hbase.filters.ModelAwareColumnMatchingFilter" /> -->
+<!--             </list> -->
+<!--         </constructor-arg> -->
+<!--     </bean> -->
+
+    <camelContext trace="false"
         xmlns="http://camel.apache.org/schema/spring">
 
-        <route id="getWebdavSource">
+        <route id="getViewWebdavSource">
             <from uri="timer:test?repeatCount=1" />
             <to
-                uri="http4://sgsdata.adtech.de/yoc/yoc_ekv_20130718.csv?authUsername=yoc&amp;authPassword=Ticani-X75" />
+                uri="http4://sgsdata.adtech.de/yoc/yoc_ekv_20130722.csv?authUsername=yoc&amp;authPassword=Ticani-X75" />
             <split streaming="true">
                 <tokenize token="\n" />
                 <choice>
                     <when>
                         <simple>${property.CamelSplitIndex} > 0</simple>
-                        <to uri="direct:unmarshal" />
+                        <to uri="direct:unmarshalView" />
                     </when>
                 </choice>
             </split>
         </route>
 
-        <route id="unmarshalCSV">
-            <from uri="direct:unmarshal" />
+        <route id="unmarshalViewCSV">
+            <from uri="direct:unmarshalView" />
             <unmarshal ref="bindyDataformat" />
-            <to uri="direct:hbase" />
+            <to uri="direct:writeHbase" />
         </route>
 
         <route id="writeHbase">
-            <from uri="direct:hbase" />
-
-            <!-- <to uri="bean:viewdata" /> -->
-            <log message="Log: ${body}" />
-
-            <setHeader headerName="CamelHBaseRowId">
-                <el>${in.body.id}</el>
-<!--                 <constant>3</constant> -->
-            </setHeader>
-            <setHeader headerName="CamelHBaseFamily">
-                <constant>cf</constant>
-            </setHeader>
-            <setHeader headerName="CamelHBaseQualifier">
-                <constant>sequenceid</constant>
-            </setHeader>
-            <setHeader headerName="CamelHBaseValue">
-<!--                 <el>${body}</el> -->
-                <constant>test</constant>
-            </setHeader>
-
-
-            <setHeader headerName="CamelHBaseRowId2">
-                <el>${in.body.id}</el>
-<!--                 <constant>3</constant> -->
-            </setHeader>
-            <setHeader headerName="CamelHBaseFamily2">
-                <constant>cf</constant>
-            </setHeader>
-            <setHeader headerName="CamelHBaseQualifier2">
-                <constant>plcNetworkId</constant>
-            </setHeader>
-            <setHeader headerName="CamelHBaseValue2">
-<!--                 <el>${in.body.plcNetworkId}</el> -->
-                <constant>test2</constant>
-            </setHeader>
-
-            <to uri="hbase:mytable?operation=CamelHBasePut" />
+            <from uri="direct:writeHbase" />
+            <process ref="setViewWriteHeaderData" />
+            <to uri="hbase:statistics?operation=CamelHBasePut" />
         </route>
+
+<!--         <route> -->
+<!--             <from uri="direct:scan" /> -->
+<!--             <process ref="setScanHeaderData" /> -->
+<!--             <to -->
+<!--                 uri="hbase:statistics?operation=CamelHBaseScan&amp;filters=#myFilterList" /> -->
+<!--         </route> -->
 
     </camelContext>
 
