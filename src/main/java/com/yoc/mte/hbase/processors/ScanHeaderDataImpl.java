@@ -6,7 +6,7 @@ package com.yoc.mte.hbase.processors;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
-import com.yoc.hbase.helper.CamelHbaseSetHeader;
+import com.yoc.mte.hbase.helper.CamelHbaseSetHeader;
 
 /**
  * @author klaus

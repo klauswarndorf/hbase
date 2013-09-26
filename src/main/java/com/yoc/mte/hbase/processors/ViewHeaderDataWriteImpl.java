@@ -9,7 +9,7 @@ import java.util.HashMap;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
-import com.yoc.hbase.helper.CamelHbaseSetHeader;
+import com.yoc.mte.hbase.helper.CamelHbaseSetHeader;
 import com.yoc.mte.hbase.viewMapping.ViewAdTechImpl;
 
 /**

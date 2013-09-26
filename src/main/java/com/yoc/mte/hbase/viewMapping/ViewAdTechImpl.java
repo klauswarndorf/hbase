@@ -52,7 +52,24 @@ public class ViewAdTechImpl implements Serializable, ViewAdTech, HbaseData {
 
     private String kvLikes;
 
-    /* (non-Javadoc)
+    private String kvMcarrier;
+
+    private String kvMos;
+
+    private String kvMrktname;
+
+    private String kvMdevicetype;
+
+    private String kvMdm;
+
+    private String kvMbrand;
+
+    private String kvContype;
+
+    private String kvMcountry;
+
+    /*
+     * (non-Javadoc)
      * @see com.yoc.mte.hbase.viewMapping.HbaseData#getId()
      */
     @Override
@@ -60,7 +77,8 @@ public class ViewAdTechImpl implements Serializable, ViewAdTech, HbaseData {
         return id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.yoc.mte.hbase.viewMapping.HbaseData#setId(java.lang.String)
      */
     @Override
@@ -228,93 +246,106 @@ public class ViewAdTechImpl implements Serializable, ViewAdTech, HbaseData {
         this.kvString = kvString;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.yoc.mte.hbase.ViewAdTech#getKvRid()
-     */
-    @Override
     public String getKvYrid() {
         return kvYrid;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.yoc.mte.hbase.ViewAdTech#setKvRid(java.lang.String)
-     */
-    @Override
     public void setKvYrid(String kvYrid) {
         this.kvYrid = kvYrid;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.yoc.mte.hbase.ViewAdTech#getKvAge()
-     */
-    @Override
     public String getKvAge() {
         return kvAge;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.yoc.mte.hbase.ViewAdTech#setKvAge(java.lang.String)
-     */
-    @Override
     public void setKvAge(String kvAge) {
         this.kvAge = kvAge;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.yoc.mte.hbase.ViewAdTech#getKvGender()
-     */
-    @Override
     public String getKvGender() {
         return kvGender;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.yoc.mte.hbase.ViewAdTech#setKvGender(java.lang.String)
-     */
-    @Override
     public void setKvGender(String kvGender) {
         this.kvGender = kvGender;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.yoc.mte.hbase.ViewAdTech#getKvLikes()
-     */
-    @Override
     public String getKvLikes() {
         return kvLikes;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.yoc.mte.hbase.ViewAdTech#setKvLikes(java.lang.String[])
-     */
-    @Override
     public void setKvLikes(String kvlikes) {
         this.kvLikes = kvlikes;
+    }
+
+    public String getKvMcarrier() {
+        return kvMcarrier;
+    }
+
+    public void setKvMcarrier(String kvMcarrier) {
+        this.kvMcarrier = kvMcarrier;
+    }
+
+    public String getKvMos() {
+        return kvMos;
+    }
+
+    public void setKvMos(String kvMos) {
+        this.kvMos = kvMos;
+    }
+
+    public String getKvMrktname() {
+        return kvMrktname;
+    }
+
+    public void setKvMrktname(String kvMrktname) {
+        this.kvMrktname = kvMrktname;
+    }
+
+    public String getKvMdevicetype() {
+        return kvMdevicetype;
+    }
+
+    public void setKvMdevicetype(String kvMdevicetype) {
+        this.kvMdevicetype = kvMdevicetype;
+    }
+
+    public String getKvMdm() {
+        return kvMdm;
+    }
+
+    public void setKvMdm(String kvMdm) {
+        this.kvMdm = kvMdm;
+    }
+
+    public String getKvMbrand() {
+        return kvMbrand;
+    }
+
+    public void setKvMbrand(String kvMbrand) {
+        this.kvMbrand = kvMbrand;
+    }
+
+    public String getKvContype() {
+        return kvContype;
+    }
+
+    public void setKvContype(String kvContype) {
+        this.kvContype = kvContype;
+    }
+
+    public String getKvMcountry() {
+        return kvMcountry;
+    }
+
+    public void setKvMcountry(String kvMcountry) {
+        this.kvMcountry = kvMcountry;
     }
 
     /*
      * splits the kv string into class fields
      *
      * @see com.yoc.mte.hbase.ViewAdTech#splitKVString()
-     */
-    /* (non-Javadoc)
-     * @see com.yoc.mte.hbase.viewMapping.HbaseData#postProcess()
      */
     @Override
     public void process() {
@@ -324,8 +355,7 @@ public class ViewAdTechImpl implements Serializable, ViewAdTech, HbaseData {
 
             String field = tmp[0];
             if(field.startsWith("kv")) {
-                char camelCase = Character.toUpperCase(field.charAt(2));
-                field = field.substring(0,2) + camelCase + field.substring(3);
+                field = field.substring(0,2) + Character.toUpperCase(field.charAt(2)) + field.substring(3);
             }
 
             DirectFieldAccessor myObjectAccessor = new DirectFieldAccessor(this);

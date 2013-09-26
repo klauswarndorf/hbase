@@ -13,24 +13,13 @@
 
     <bean id="setViewWriteHeaderData" class="com.yoc.mte.hbase.processors.ViewHeaderDataWriteImpl" />
 
-<!--     <bean id="setScanHeaderData" class="com.yoc.mte.hbase.processors.ScanHeaderDataImpl" /> -->
+    <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
 
-<!--     <bean id="myFilterList" class="java.util.ArrayList"> -->
-<!--         <constructor-arg> -->
-<!--             <list> -->
-<!--                 <bean -->
-<!--                     class="org.apache.camel.component.hbase.filters.ModelAwareColumnMatchingFilter" /> -->
-<!--             </list> -->
-<!--         </constructor-arg> -->
-<!--     </bean> -->
-
-    <camelContext trace="false"
-        xmlns="http://camel.apache.org/schema/spring">
+        <propertyPlaceholder id="properties" location="com/yoc/mte/hbase/default.properties" />
 
         <route id="getViewWebdavSource">
             <from uri="timer:test?repeatCount=1" />
-            <to
-                uri="http4://sgsdata.adtech.de/yoc/yoc_ekv_20130722.csv?authUsername=yoc&amp;authPassword=Ticani-X75" />
+            <to uri="http4://{{webdav.url}}yoc_ekv_20130925.csv?authUsername={{webdav.user}}&amp;authPassword={{webdav.pass}}" />
             <split streaming="true">
                 <tokenize token="\n" />
                 <choice>
@@ -51,14 +40,24 @@
         <route id="writeHbase">
             <from uri="direct:writeHbase" />
             <process ref="setViewWriteHeaderData" />
-            <to uri="hbase:statistics?operation=CamelHBasePut" />
+            <to uri="hbase:{{hbase.table}}?operation=CamelHBasePut" />
         </route>
 
-<!--         <route> -->
-<!--             <from uri="direct:scan" /> -->
-<!--             <process ref="setScanHeaderData" /> -->
-<!--             <to -->
-<!--                 uri="hbase:statistics?operation=CamelHBaseScan&amp;filters=#myFilterList" /> -->
+<!--         <route id="scanHbase"> -->
+<!--             <from uri="timer:test?repeatCount=2" /> -->
+<!--             <setHeader headerName="CamelHBaseFamily"> -->
+<!--                 <constant>cf</constant> -->
+<!--             </setHeader> -->
+<!--             <setHeader headerName="CamelHBaseQualifier"> -->
+<!--                 <constant>websiteId</constant> -->
+<!--             </setHeader> -->
+<!--             <setHeader headerName="CamelHBaseValue"> -->
+<!--                 <constant>1124210</constant> -->
+<!--             </setHeader> -->
+<!--             <setHeader headerName="CamelHBaseQualifier2"> -->
+<!--                 <constant>kvString</constant> -->
+<!--             </setHeader> -->
+<!--             <to uri="hbase:statistics?operation=CamelHBaseScan" /> -->
 <!--         </route> -->
 
     </camelContext>

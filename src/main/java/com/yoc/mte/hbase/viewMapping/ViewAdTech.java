@@ -33,21 +33,4 @@ public interface ViewAdTech {
     public abstract String getKvString();
 
     public abstract void setKvString(String kvString);
-
-    public abstract String getKvYrid();
-
-    public abstract void setKvYrid(String kvYrid);
-
-    public abstract String getKvAge();
-
-    public abstract void setKvAge(String kvAge);
-
-    public abstract String getKvGender();
-
-    public abstract void setKvGender(String kvGender);
-
-    public abstract String getKvLikes();
-
-    public abstract void setKvLikes(String kvlikes);
-
 }
