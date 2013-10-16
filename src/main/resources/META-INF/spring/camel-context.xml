@@ -15,7 +15,7 @@
 
     <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
 
-        <propertyPlaceholder id="properties" location="com/yoc/mte/hbase/default.properties" />
+        <propertyPlaceholder id="properties" location="default.properties" />
 
         <route id="getViewWebdavSource">
             <from uri="timer:test?repeatCount=1" />
@@ -43,25 +43,6 @@
             <to uri="hbase:{{hbase.table}}?operation=CamelHBasePut" />
         </route>
 
-<!--         <route id="scanHbase"> -->
-<!--             <from uri="timer:test?repeatCount=2" /> -->
-<!--             <setHeader headerName="CamelHBaseFamily"> -->
-<!--                 <constant>cf</constant> -->
-<!--             </setHeader> -->
-<!--             <setHeader headerName="CamelHBaseQualifier"> -->
-<!--                 <constant>websiteId</constant> -->
-<!--             </setHeader> -->
-<!--             <setHeader headerName="CamelHBaseValue"> -->
-<!--                 <constant>1124210</constant> -->
-<!--             </setHeader> -->
-<!--             <setHeader headerName="CamelHBaseQualifier2"> -->
-<!--                 <constant>kvString</constant> -->
-<!--             </setHeader> -->
-<!--             <to uri="hbase:statistics?operation=CamelHBaseScan" /> -->
-<!--         </route> -->
-
     </camelContext>
-
-
 
 </beans>
